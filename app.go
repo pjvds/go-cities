@@ -2,23 +2,27 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
+	"flag"
 	"fmt"
+	"net/http"
 )
 
 var (
-	Address    = flag.String("address", "", "the address to host on")
-	Port       = flag.Int("port", 8000, "the port to host on")
-	cities = []string{
-	"Amsterdam", "San Francisco", "Paris", "New York", "Portland",
-}
+	Address = flag.String("address", "", "the address to host on")
+	Port    = flag.Int("port", 8000, "the port to host on")
+	cities  = []string{
+		"Amsterdam", "San Francisco", "Paris", "New York", "Portland",
+	}
+)
 
 func main() {
+	flag.Parse()
+	endpoint := fmt.Sprintf("%v:%v", *Address, *Port)
+
 	http.HandleFunc("/", handleIndex)
 
-	address := fmt.Sprintf("%v:%v", *Address, *Port)
-	fmt.Printf("Hosting at %v\n", address)
-	if err := http.ListenAndServe(address, nil); err != nil {
+	fmt.Printf("Hosting at %v\n", endpoint)
+	if err := http.ListenAndServe(endpoint, nil); err != nil {
 		fmt.Printf("Error: %v", err)
 	}
 }
