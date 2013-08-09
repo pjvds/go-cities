@@ -48,6 +48,6 @@ deploy:
           cd $WERCKER_ROOT
           curl -O http://googleappengine.googlecode.com/files/go_appengine_sdk_darwin_amd64-1.8.3.zip ; unzip -x go_appengine_sdk_darwin_amd64-1.8.3
           export PATH="$PATH:$(pwd)/go_appengine"
-          echo "$APP_ENGINE_PASSWORD" > "$WERCKER_STEP_TEMP/password"
+          echo "$APP_ENGINE_PASS" > "$WERCKER_STEP_TEMP/password"
           cd $WERCKER_SOURCE_DIR
           appcfg.py update ./ --email=pj@born2code.net --passin < "$WERCKER_STEP_TEMP/password"
