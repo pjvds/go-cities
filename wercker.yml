@@ -1,2 +1,53 @@
-# Execute pipeline in the golang box from pjvds
-box: pjvds/golang
+box: wercker/golang
+build:
+  steps:
+    - pjvds/setup-go-workspace
+
+    # - script:
+    #     name: Populate cache
+    #     code: |-
+    #         # BEFORE YOU COPY AND USE THIS STEP IN YOUR OWN BUILD PIPELINE
+    #         # MAKE SURE YOU SET $WERCKER_SOURCE_DIR TO THE PACKAGE DIRECTORY
+    #         # OR YOUR PROJECT, LIKE: $GOPATH/github.com/pjvds/httpcallback.io
+    #         if test -d "$WERCKER_CACHE_DIR/go-pkg-cache"; then rsync -avzv --exclude "$WERCKER_SOURCE_DIR" "$WERCKER_CACHE_DIR/go-pkg-cache/" "$GOPATH/" ; fi
+
+    - script:
+        name: Get dependencies
+        code: go get -v ./...
+
+    - script:
+        name: Build
+        code: |
+            go build -a -v ./...
+
+    - script:
+        name: Test
+        code: |-
+            go test ./...
+
+    - script:
+        name: Store cache
+        code: |-
+            # BEFORE YOU COPY AND USE THIS STEP IN YOUR OWN BUILD PIPELINE
+            # MAKE SURE YOU SET $WERCKER_SOURCE_DIR TO THE PACKAGE DIRECTORY
+            # OR YOUR PROJECT, LIKE: $GOPATH/github.com/pjvds/httpcallback.io
+            rsync -avzv --exclude "$WERCKER_SOURCE_DIR" "$GOPATH/" "$WERCKER_CACHE_DIR/go-pkg-cache/"
+
+    - script:
+        name: Copy output
+        code: |-
+          rsync -avz "$WERCKER_SOURCE_DIR/" "$WERCKER_OUTPUT_DIR"
+
+deploy:
+  steps:
+    - pjvds/setup-go-workspace
+
+    - script:
+        name: Install AppEngine SDK and deploy
+        code: |-
+          cd $WERCKER_ROOT
+          curl -O http://googleappengine.googlecode.com/files/go_appengine_sdk_darwin_amd64-1.8.3.zip ; unzip -x go_appengine_sdk_darwin_amd64-1.8.3
+          export PATH="$PATH:$(pwd)/go_appengine"
+          echo "$APP_ENGINE_PASSWORD" > "$WERCKER_STEP_TEMP/password"
+          cd $WERCKER_SOURCE_DIR
+          appcfg.py update ./ --email=pj@born2code.net --passin < "$WERCKER_STEP_TEMP/password"
