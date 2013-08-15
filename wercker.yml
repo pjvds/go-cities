@@ -41,6 +41,6 @@ build:
 deploy:
   steps:
     - pjvds/setup-go-workspace
-    - pjvds/appengine-deploy
+    - pjvds/appengine-deploy:
         email: pj@born2code.net
         password: $APP_ENGINE_PASS
