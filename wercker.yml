@@ -14,7 +14,7 @@ build:
     - script:
         name: Get dependencies
         code: |-
-            go get code.google.com/p/appengine-go
+            go get code.google.com/p/appengine-go/appengine
             go get -v ./...
 
     - script:
