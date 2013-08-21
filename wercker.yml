@@ -13,7 +13,9 @@ build:
 
     - script:
         name: Get dependencies
-        code: go get -v ./...
+        code: |-
+            go get code.google.com/p/appengine-go
+            go get -v ./...
 
     - script:
         name: Build
