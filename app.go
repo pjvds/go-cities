@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func main() {
+func init() {
 	r := http.NewServeMux()
 	r.HandleFunc("/", handler)
 	r.HandleFunc("/ping", pingHandler)
