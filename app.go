@@ -5,9 +5,12 @@ import (
 	"net/http"
 )
 
-func init() {
-	http.HandleFunc("/", handler)
-	http.HandleFunc("/ping", pingHandler)
+func main() {
+	r := http.NewServeMux()
+	r.HandleFunc("/", handler)
+	r.HandleFunc("/ping", pingHandler)
+
+	http.Handle("/", r)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
