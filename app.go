@@ -1,4 +1,4 @@
-package app
+package cities
 
 import (
 	"encoding/json"
