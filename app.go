@@ -9,7 +9,7 @@ import (
 
 var (
 	Address = flag.String("address", "", "the address to host on")
-	Port    = flag.Int("port", 8000, "the port to host on")
+	Port    = flag.Int("port", 80, "the port to host on")
 	cities  = []string{
 		"Amsterdam", "San Francisco", "Paris", "New York", "Portland",
 	}
