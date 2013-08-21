@@ -1,23 +1,14 @@
-package cities
+package hello
 
 import (
-	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
-var (
-	cities = []string{
-		"Amsterdam", "San Francisco", "Paris", "New York", "Portland",
-	}
-)
-
 func init() {
-	http.HandleFunc("/", handleIndex)
+	http.HandleFunc("/", handler)
 }
 
-func handleIndex(rw http.ResponseWriter, req *http.Request) {
-	rw.Header().Set("Content-Type", "application/json")
-
-	encoder := json.NewEncoder(rw)
-	encoder.Encode(cities)
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Hello, world!")
 }
