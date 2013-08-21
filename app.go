@@ -15,16 +15,8 @@ var (
 	}
 )
 
-func main() {
-	flag.Parse()
-	endpoint := fmt.Sprintf("%v:%v", *Address, *Port)
-
+func init() {
 	http.HandleFunc("/", handleIndex)
-
-	fmt.Printf("Hosting at %v\n", endpoint)
-	if err := http.ListenAndServe(endpoint, nil); err != nil {
-		fmt.Printf("Error: %v", err)
-	}
 }
 
 func handleIndex(rw http.ResponseWriter, req *http.Request) {
