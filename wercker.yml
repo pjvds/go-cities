@@ -12,6 +12,14 @@ build:
     #         if test -d "$WERCKER_CACHE_DIR/go-pkg-cache"; then rsync -avzv --exclude "$WERCKER_SOURCE_DIR" "$WERCKER_CACHE_DIR/go-pkg-cache/" "$GOPATH/" ; fi
 
     - script:
+        name: Write to artifact dir
+        code: |-
+           echo "foobar" > $WERCKER_REPORT_ARTIFACTS_DIR/log.txt
+           echo "baz" > $WERCKER_REPORT_ARTIFACTS_DIR/log2.txt
+           
+           
+
+    - script:
         name: Get dependencies
         code: |-
             go get -v ./...
