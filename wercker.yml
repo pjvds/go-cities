@@ -12,6 +12,11 @@ build:
     #         if test -d "$WERCKER_CACHE_DIR/go-pkg-cache"; then rsync -avzv --exclude "$WERCKER_SOURCE_DIR" "$WERCKER_CACHE_DIR/go-pkg-cache/" "$GOPATH/" ; fi
 
     - danarnold/pry-todo-check
+    
+    - script:
+        name: Export all variables
+        code: |-
+            export
 
     - script:
         name: Get dependencies
